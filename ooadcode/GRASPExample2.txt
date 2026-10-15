@@ -1,0 +1,30 @@
+//			GRASPExample2
+
+class Library {
+    private List<String> books = new ArrayList<>();
+
+    public void addBook(String book) {
+        books.add(book);
+    }
+
+    public boolean login(String username, String password) {
+        if (username.equals("admin") && password.equals("1234")) {
+            System.out.println("Login successful!");
+            return true;
+        }
+        System.out.println("Login failed!");
+        return false;
+    }
+
+    public void sendNotification(String message) {
+        System.out.println("Sending email notification: " + message);
+    }
+
+    public void searchBook(String keyword) {
+        for (String book : books) {
+            if (book.contains(keyword)) {
+                System.out.println("Found: " + book);
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+//		GRASPExample4
+
+class BankAccount {
+    private String accountNumber;
+    private double balance;
+
+    public BankAccount(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public boolean login(String username, String password) {
+        if (username.equals("user123") && password.equals("pass123")) {
+            System.out.println("Login successful!");
+            return true;
+        }
+        System.out.println("Login failed!");
+        return false;
+    }
+
+    public void approveLoan(double amount) {
+        if (amount < balance * 2) {
+            System.out.println("Loan approved for $" + amount);
+        } else {
+            System.out.println("Loan denied.");
+        }
+    }
+
+    public void sendNotification(String message) {
+        System.out.println("Sending SMS: " + message);
+    }
+}

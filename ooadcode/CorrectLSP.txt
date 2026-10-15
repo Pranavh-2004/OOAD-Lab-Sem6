@@ -1,0 +1,33 @@
+// Correct way of implementing
+
+// Segregate behaviors so subclasses only inherit what they can do.
+abstract class Bird 
+{
+    public void eat() 
+    {
+        System.out.println("Eating...");
+    }
+}
+
+interface Flyable 
+{
+    void fly();
+}
+
+class Sparrow extends Bird implements Flyable 
+{
+    @Override
+    public void fly() 
+    {
+        System.out.println("Sparrow is flying");
+    }
+}
+
+class Penguin extends Bird 
+{
+    // Penguin only inherits eat(), avoiding the fly() contract it cannot fulfill.
+    public void swim() 
+    {
+        System.out.println("Penguin is swimming");
+    }
+}

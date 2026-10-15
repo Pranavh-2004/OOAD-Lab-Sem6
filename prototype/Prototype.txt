@@ -1,0 +1,8 @@
+Use prototype pattern when your code shouldnot depend on the concrete classes of the objects that u need to copy 
+
+will clone objects without coupling them to their conc classes
+
+will get rid of repeated initialization code
+
+will save resources and time
+

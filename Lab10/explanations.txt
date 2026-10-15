@@ -1,0 +1,106 @@
+============================================================
+  OOAD LAB 10 — DESIGN PATTERNS — EXPLANATIONS
+  PES1UG23CS433 | Pranav Hemanth | Section G
+============================================================
+
+------------------------------------------------------------
+Q1. ADAPTER PATTERN — Hospital Lab Integration
+------------------------------------------------------------
+
+Design Pattern Identified: Adapter Pattern (Structural)
+
+The Adapter pattern is used when existing classes have incompatible interfaces and cannot be modified. It acts as a bridge (adapter) that converts one interface into another that the client expects.
+
+In this scenario, three external labs expose different method signatures:
+  - BloodLab       → getBloodReport()
+  - DiagnosticsLab → fetchLabResults()
+  - PathologyLab   → retrieveDiagnostics()
+
+The hospital system, however, expects all labs to conform to a single interface: getPatientReport() defined in HospitalReportSystem.
+
+Three adapter classes are introduced — BloodLabAdapter, DiagnosticsLabAdapter, and PathologyLabAdapter — each implementing HospitalReportSystem and internally delegating the call to the respective lab's native method. The hospital client code only interacts with the HospitalReportSystem interface and is completely unaware of the underlying implementation differences.
+
+How it resolves interface mismatches:
+The pattern eliminates the need to modify existing lab classes (which may be third-party or legacy code). Each adapter wraps a specific incompatible class and translates the standardized getPatientReport() call into the appropriate native method. This preserves the Open/Closed Principle — the system is open for extension (new labs can be added by writing new adapters) but closed for modification.
+
+------------------------------------------------------------
+Q2. PROXY PATTERN — Video Streaming Platform
+------------------------------------------------------------
+
+Design Pattern Identified: Proxy Pattern — Virtual Proxy with Caching (Structural)
+
+The Proxy pattern introduces a surrogate object that controls access to another object. A Virtual Proxy defers the creation of an expensive object until it is actually needed (lazy initialization). Combined with caching, it also prevents redundant loading of the same resource.
+
+In this scenario, RealVideo is expensive to construct as it loads high-resolution video data from the server during instantiation. The VideoProxy wraps the RealVideo and:
+  1. Defers object creation until playVideo() is actually called (lazy loading).
+  2. Maintains a static cache (HashMap) of already-loaded videos keyed by filename.
+  3. On playVideo(), checks the cache first. If the video exists, it reuses it; otherwise, it creates and caches a new RealVideo.
+
+Both VideoProxy and RealVideo implement the same Video interface, so the client code is unaffected by the introduction of the proxy.
+
+How it improves performance:
+Without the proxy, every Video object would load from the server at construction time, even if never played. With the proxy, loading is deferred and deduplicated. Requesting the same video twice (e.g., Inception.mp4) results in only one server load — the second request is served instantly from cache. This significantly reduces bandwidth usage, server load, and latency, especially on platforms serving many concurrent users.
+
+------------------------------------------------------------
+Q3. FLYWEIGHT PATTERN — Game Environment
+------------------------------------------------------------
+
+Design Pattern Identified: Flyweight Pattern (Structural)
+
+The Flyweight pattern reduces memory consumption by sharing common state (intrinsic state) across many objects, while keeping unique state (extrinsic state) external to the shared object.
+
+In this scenario, thousands of game objects like trees, rocks, and buildings share the same visual properties — type, texture, and color — but each appears at a different position in the world. Without Flyweight, every object stores both its visual properties AND its position, leading to massive memory duplication.
+
+The solution separates state into two categories:
+  - Intrinsic state (shared): type, texture, color — stored once in TreeType (Flyweight object)
+  - Extrinsic state (unique): x, y position — stored per instance in the Tree (Context) class
+
+The GameObjectFactory (Flyweight Factory) ensures that only one TreeType object is ever created per unique combination of type+texture+color. Subsequent requests for the same type return the existing cached object. The Tree context class holds a reference to the shared flyweight and passes its own position as a parameter during render().
+
+How it reduces memory consumption:
+In the demo, 6 trees of only 2 distinct types are rendered. Without Flyweight, 6 full objects with all properties would be allocated. With Flyweight, only 2 TreeType objects are created and shared — a saving of 4 heavy objects. At scale (thousands of trees), this translates to a dramatic reduction in heap memory usage since the bulky intrinsic data (textures, etc.) exists only once regardless of how many instances reference it.
+
+------------------------------------------------------------
+Q4. FACADE PATTERN — E-Commerce Purchase Flow
+------------------------------------------------------------
+
+Design Pattern Identified: Facade Pattern (Structural)
+
+The Facade pattern provides a simplified, unified interface to a complex subsystem of classes. It does not add new functionality — it hides complexity and reduces the number of objects the client must interact with.
+
+In this scenario, a complete purchase involves coordinating four separate subsystems:
+  - AuthService     → login(), logout()
+  - ProductService  → checkStock(), selectProduct()
+  - PaymentService  → makePayment(), sendInvoice()
+  - OrderService    → placeOrder(), trackOrder()
+
+Without the facade, clients must know the correct sequence and call each method individually — tightly coupling the client to internal subsystem details. Any change in the workflow (e.g., adding an inventory check) requires modifying every client.
+
+The ECommerceFacade class encapsulates all four subsystems and exposes a single method: completePurchase(user, product, amount). Internally, it orchestrates the correct sequence of calls across all services. The client only calls one method and is shielded from the workflow complexity.
+
+How it simplifies system interaction:
+The client goes from managing 6–8 method calls across 4 objects to a single method call. This reduces coupling, improves readability, and centralizes workflow logic. Changes to the purchase flow (adding a loyalty points step, for example) only require modifying the facade — all client code remains unchanged. The Facade pattern also makes the system easier to test, since the facade provides a clean, mockable entry point.
+
+============================================================
+  SCREENSHOT GUIDE FOR SUBMISSION
+============================================================
+
+Q1 — Adapter Pattern:
+  Screenshot 1: Project structure showing Q1_Adapter/ folder with LabAdapter.java
+  Screenshot 2: Terminal output after running LabAdapter — showing 3 adapted reports printed via getPatientReport()
+
+Q2 — Proxy Pattern:
+  Screenshot 1: Project structure showing Q2_Proxy/ folder with VideoProxy.java
+  Screenshot 2: Terminal output — showing "Cache miss" on first Inception load, "Cache hit" on second Inception request, and both Interstellar and Inception playing successfully
+
+Q3 — Flyweight Pattern:
+  Screenshot 1: Project structure showing Q3_Flyweight/ folder with FlyweightGame.java
+  Screenshot 2: Terminal output — showing only 2 FLYWEIGHT CREATED lines for 6 trees, "REUSING FLYWEIGHT" messages, and the summary showing "2 unique flyweight objects" for 6 trees
+
+Q4 — Facade Pattern:
+  Screenshot 1: Project structure showing Q4_Facade/ folder with ECommerceFacadeDemo.java
+  Screenshot 2: Terminal output — showing the full purchase flow for both users (Pranav and Alice) triggered by a single completePurchase() call each
+
+============================================================
+END OF EXPLANATIONS
+============================================================

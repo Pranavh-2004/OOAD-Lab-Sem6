@@ -1,0 +1,13 @@
+public class LSPDemo 
+{
+    public static void main(String[] args) 
+    {
+        // Substitutability: Any Bird can eat.
+        Bird myBird = new Penguin();
+        myBird.eat(); // Works fine
+
+        // Correctness: Only Flyable types are asked to fly.
+        Flyable flyer = new Sparrow();
+        flyer.fly(); // Works fine
+    }
+}

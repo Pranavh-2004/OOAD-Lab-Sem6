@@ -1,0 +1,25 @@
+//			GRASPExample3
+
+class Patient {
+    private String name;
+    private int age;
+    private String diagnosis;
+
+    public Patient(String name, int age, String diagnosis) {
+        this.name = name;
+        this.age = age;
+        this.diagnosis = diagnosis;
+    }
+
+    public void scheduleAppointment(String doctor, String date) {
+        System.out.println("Appointment scheduled with Dr. " + doctor + " on " + date);
+    }
+
+    public void generateBill(double amount) {
+        System.out.println("Generating bill of $" + amount + " for " + name);
+    }
+
+    public void saveMedicalRecord() {
+        System.out.println("Saving medical record for " + name + " with diagnosis: " + diagnosis);
+    }
+}

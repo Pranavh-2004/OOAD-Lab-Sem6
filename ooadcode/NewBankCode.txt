@@ -1,0 +1,67 @@
+import java.util.Random;
+
+public class Bank_Service 
+{
+    	public long deposit (long amount, String accountNo) 
+	{
+		// deposit amount
+		return 0;
+	}
+	
+	public long withDraw (long amount, String accountNo) 
+	{
+		// withdraw amount
+		return 0;
+	}
+}
+
+public class PrinterService 
+{
+	public void printPassbook () 
+	{
+		// update transactions
+	}
+}
+
+public class LoanService 
+{
+	public void getLoanInterestInfo (String loanType)
+	{
+		if (loanType.equals ("homeLoan")) 
+		{
+			// do some job
+		}
+		if (loanType.equals ("personalLoan")) 
+		{
+			// do some job
+		}
+		if (loanType.equals ("carLoan")) 
+		{
+			// do some job	
+		}
+	}
+}
+
+
+public interface Notification {
+    void sendAlert(String message);
+}
+
+class EmailNotification implements Notification {
+    public void sendAlert(String message) {
+        System.out.println("Email: " + message);
+    }
+}
+
+class SMSNotification implements Notification {
+    public void sendAlert(String message) {
+        System.out.println("SMS: " + message);
+    }
+}
+
+class PushNotification implements Notification {
+    public void sendAlert(String message) {
+        System.out.println("Push: " + message);
+    }
+}
+

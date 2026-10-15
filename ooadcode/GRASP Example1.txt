@@ -1,0 +1,25 @@
+//			GRASP Example1
+
+class Order {
+    private List<String> items = new ArrayList<>();
+    private double total;
+
+    public void addItem(String item, double price) {
+        items.add(item);
+        total += price;
+    }
+
+    public void processPayment(String cardNumber, String expiry) {
+        System.out.println("Connecting to bank...");
+        System.out.println("Charging card " + cardNumber + " for $" + total);
+        System.out.println("Payment successful!");
+    }
+
+    public void printReceipt() {
+        System.out.println("Receipt:");
+        for (String item : items) {
+            System.out.println(item);
+        }
+        System.out.println("Total: $" + total);
+    }
+}

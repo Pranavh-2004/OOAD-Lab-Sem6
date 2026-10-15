@@ -1,0 +1,32 @@
+2. Technologies Used
+Backend Framework: Java Spring Boot
+Architecture Pattern: Model-View-Controller (MVC)
+Persistence: Spring Data JPA / Hibernate
+Database: H2 (In-Memory Database)
+Frontend: HTML, CSS, Thymeleaf
+
+3. Architecture Overview
+The application follows a standard three-tier architecture:
+
+Model (Data Layer): The Student entity represents the database schema. It is mapped to the default STUDENT table using JPA annotations.
+View (Presentation Layer): The HTML/Thymeleaf template (index.html) provides the user interface for registration and viewing records.
+Controller (Application Logic): The StudentController intercepts incoming HTTP requests (GET, POST), communicates with the StudentService to apply business rules, and returns the appropriate HTTP responses or UI templates.
+
+4. Implementation Details
+4.1. The Model (Student.java)
+The Student class serves as the JPA Entity. It uses @Entity to map it to a database table. The primary key (id) is auto-generated using @GeneratedValue(strategy = GenerationType.IDENTITY). The fields include name, email, and course.
+
+4.2. The Repository (StudentRepository.java)
+This interface extends JpaRepository<Student, Long>, providing built-in CRUD functionalities without writing SQL queries. We defined custom query methods such as existsByEmail(String email) to check for data duplication, and findByCourse(String course) to retrieve students by course.
+
+4.3. The Service (StudentService.java)
+The service layer acts as a bridge between the Controller and the Repository. It houses the core business logic.
+Duplicate Validation: Before adding a student, addStudent() checks if the email already exists using the repository's existsByEmail() method. If it does, it throws a RuntimeException.
+
+4.4. The Controller (StudentController.java)
+The controller serves both MVC web endpoints and REST API endpoints:
+GET / : Serves the main HTML interface with the student form and list.
+POST /add : Accepts form submissions to add a new student, using redirect attributes for success/error messages.
+GET /delete/{id} : Deletes a student by ID and redirects to the home page.
+POST /api/students : Accepts JSON payload and calls the service to save the student, returning a ResponseEntity.
+GET /api/students : Fetches all registered students as a JSON array.

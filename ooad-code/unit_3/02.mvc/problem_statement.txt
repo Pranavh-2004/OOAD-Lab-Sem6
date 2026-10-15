@@ -1,0 +1,29 @@
+Features:
+- Add books to the library -> addBook
+- Borrow book -> borrowBook
+- Return book -> returnBook
+- Register user -> registerUser
+- Display available books -> displayAvailableBooks()
+- Display user detials -> displayUserDetails()
+
+Class:
+
+- Model
+    - User
+        - id
+        - name
+
+    - Book
+        - id
+        - title
+
+    - Library
+
+- Controller
+    - LibraryController
+
+- View
+    - LibraryView
+
+- EntryPoint
+    - Main

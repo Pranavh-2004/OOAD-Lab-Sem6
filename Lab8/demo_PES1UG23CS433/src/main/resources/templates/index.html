@@ -1,0 +1,131 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Student Management</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      h2 {
+        color: #333;
+        border-bottom: 2px solid #4caf50;
+        padding-bottom: 10px;
+      }
+      form {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+      label {
+        display: block;
+        margin-bottom: 15px;
+      }
+      input[type="text"],
+      input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        background: #4caf50;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button:hover {
+        background: #45a049;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background: #4caf50;
+        color: white;
+      }
+      tr:hover {
+        background: #f9f9f9;
+      }
+      .delete-link {
+        color: #e74c3c;
+        text-decoration: none;
+      }
+      .delete-link:hover {
+        text-decoration: underline;
+      }
+      .error {
+        background: #ffebee;
+        color: #c62828;
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border: 1px solid #ef9a9a;
+      }
+      .success {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border: 1px solid #a5d6a7;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Add Student</h2>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <div th:if="${success}" class="success" th:text="${success}"></div>
+
+    <form th:action="@{/add}" method="post" th:object="${student}">
+      <label>Name: <input type="text" th:field="*{name}" required /></label>
+      <label>Email: <input type="email" th:field="*{email}" required /></label>
+      <label>Course: <input type="text" th:field="*{course}" required /></label>
+      <button type="submit">Add Student</button>
+    </form>
+
+    <h2>Student List</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Course</th>
+        <th>Action</th>
+      </tr>
+      <tr th:each="s : ${students}">
+        <td th:text="${s.id}"></td>
+        <td th:text="${s.name}"></td>
+        <td th:text="${s.email}"></td>
+        <td th:text="${s.course}"></td>
+        <td>
+          <a class="delete-link" th:href="@{/delete/{id}(id=${s.id})}"
+            >Delete</a
+          >
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
